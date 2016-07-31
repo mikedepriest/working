@@ -8,7 +8,7 @@
  * under which the software has been supplied.
  */
 
-package com.ge.dspmicro.sample.subscriptionmachineadapter;
+package com.ge.dspmicro.sample.raspimachineadapter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -82,7 +82,7 @@ public class RaspiSubscriptionMachineAdapterImpl
     }
 
     /** Service PID for Sample Machine Adapter */
-    public static final String                SERVICE_PID         = "com.ge.dspmicro.sample.subscriptionmachineadapter";         //$NON-NLS-1$
+    public static final String                SERVICE_PID         = "com.ge.dspmicro.sample.raspimachineadapter";         //$NON-NLS-1$
     /** Key for Update Interval */
     public static final String                UPDATE_INTERVAL     = SERVICE_PID + ".UpdateInterval";                             //$NON-NLS-1$
     /** Key for number of nodes */

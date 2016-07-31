@@ -8,7 +8,7 @@
  * under which the software has been supplied.
  */
 
-package com.ge.dspmicro.sample.subscriptionmachineadapter;
+package com.ge.dspmicro.sample.raspimachineadapter;
 
 import java.util.List;
 import java.util.UUID;

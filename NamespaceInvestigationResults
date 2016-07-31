@@ -1,0 +1,21 @@
+./pom.xml
+./config/com.ge.dspmicro.sample.subscriptionmachineadapter.config
+./src/main/resources/OSGI-INF/permissions.perm
+./src/main/java/com/ge/dspmicro/sample/subscriptionmachineadapter/RaspiDataNode.java
+./src/main/java/com/ge/dspmicro/sample/subscriptionmachineadapter/RaspiSubscriptionMachineAdapterImpl.java
+./src/main/java/com/ge/dspmicro/sample/subscriptionmachineadapter/RaspiSensors.java
+./src/main/java/com/ge/dspmicro/sample/subscriptionmachineadapter/RaspiDataSubscription.java
+./src/main/java/com/ge/dspmicro/sample/subscriptionmachineadapter/RaspiSubscriptionListener.java
+
+Test 1: Change Maven artifactid to raspmachineadapter
+- built jarfile com.ge.dspmicro.sample.raspmachineadapter-16.2.1.jar
+- altered boot.ini to reflect new name
+Result 1: Success - abcdeName tag updates in TimeSeries
+
+Test 2: Change folder and package name from .../subscriptionmachineadapter to .../raspimachineadapter
+- updated in source files and config file
+- - built ok
+- deployed to machine
+Result 2: Success - abcdeName tag updates in TimeSeries
+
+
