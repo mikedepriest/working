@@ -152,8 +152,8 @@ public class RaspiSubscriptionMachineAdapterImpl
         //_logger.info( this.config.adapterSensors().toString() );
         
         this.updateInterval = Integer.parseInt(this.config.updateInterval());
-        int count = Integer.parseInt(this.config.numberOfNodes());
-        createNodes(count);
+        //int count = Integer.parseInt(this.config.numberOfNodes());
+        //createNodes(count);
 
         List<String> sensors = Arrays.asList(parseSensors());
         
