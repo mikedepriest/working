@@ -8,7 +8,7 @@
 		<relativePath>../</relativePath>
 	</parent>
 
-	<artifactId>sample-subscriptionmachineadapter</artifactId>
+	<artifactId>raspimachineadapter</artifactId>
 	<version>${dspmicro.sample-apps.version}</version>
 	<packaging>bundle</packaging>
 	<name>Predix Machine Subscription Machine Adapter Sample</name>
