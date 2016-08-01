@@ -49,7 +49,7 @@ public class RaspiSubscriptionListener
     {
         for (PDataValue value : values)
         {
-            _logger.info("Internal Listernal with Value:  " + value); //$NON-NLS-1$
+            _logger.info("Internal Listener with Value:  " + value); //$NON-NLS-1$
         }
     }
 

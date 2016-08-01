@@ -79,6 +79,12 @@ public class RaspiSubscriptionMachineAdapterImpl
         @Meta.AD(name = "%adapterSensors.name", description = "%adapterSensors.description", id = ADAPTER_SENSORS, required = true, deflt = "")
         String adapterSensors();
 
+        @Meta.AD(name = "%adapterSensorW1Location.name", description = "%adapterSensorW1Location.description", id = ADAPTER_SENSOR_LOCATION, required = true, deflt = "")
+        String adapterSensorW1Location();
+
+        @Meta.AD(name = "%adapterSensorW1Filename.name", description = "%adapterSensorW1Filename.description", id = ADAPTER_SENSOR_FILENAME, required = true, deflt = "")
+        String adapterSensorW1Filename();
+
     }
 
     /** Service PID for Sample Machine Adapter */
@@ -97,7 +103,11 @@ public class RaspiSubscriptionMachineAdapterImpl
     public static final String                ADAPTER_SENSORS     = SERVICE_PID + ".Sensors";                                    //$NON-NLS-1$
     /** The regular expression used to split property values into String array. */
     public final static String                SPLIT_PATTERN       = "\\s*\\|\\s*";                                               //$NON-NLS-1$
-
+    /** Sensor Location **/
+    public static final String                ADAPTER_SENSOR_LOCATION     = SERVICE_PID + ".SensorW1Location";                                    //$NON-NLS-1$
+    /** Sensor Filename **/
+    public static final String                ADAPTER_SENSOR_FILENAME     = SERVICE_PID + ".SensorW1Filename";                                    //$NON-NLS-1$
+    
     // Create logger to report errors, warning massages, and info messages (runtime Statistics)
     private static final Logger               _logger             = LoggerFactory
                                                                           .getLogger(RaspiSubscriptionMachineAdapterImpl.class);
@@ -110,7 +120,6 @@ public class RaspiSubscriptionMachineAdapterImpl
     private int                               updateInterval;
 
     private Config                            config;
-    private String                            sensorString         = new String();
     
     /**
      * Data cache for holding latest data updates
@@ -136,30 +145,21 @@ public class RaspiSubscriptionMachineAdapterImpl
     public void activate(ComponentContext ctx)
             throws IOException
     {
-        //if ( _logger.isDebugEnabled() )
-        //{
-            _logger.info("Starting ***** RasPi ***** " + ctx.getBundleContext().getBundle().getSymbolicName()); //$NON-NLS-1$
-        //}
+        _logger.info("Starting " + ctx.getBundleContext().getBundle().getSymbolicName()); //$NON-NLS-1$
 
         // Get all properties and create nodes.
         this.props = ctx.getProperties();
 
         this.config = Configurable.createConfigurable(Config.class, ctx.getProperties());
-
-//        this.sensorString =  this.props.get("Sensors").toString();
-//        _logger.info( sensorString.toString() ); 
-//      
-        //_logger.info( this.config.adapterSensors().toString() );
-        
+       
         this.updateInterval = Integer.parseInt(this.config.updateInterval());
-        //int count = Integer.parseInt(this.config.numberOfNodes());
-        //createNodes(count);
 
         List<String> sensors = Arrays.asList(parseSensors());
         
         for (String sensor : sensors)
         {
-        	createNode(sensor);
+        	_logger.info("Creating sensor for location "+this.config.adapterSensorW1Location()); //$NON-NLS-1$
+        	createNode(sensor,this.config.adapterSensorW1Location(),this.config.adapterSensorW1Filename());
         }
         
         this.adapterInfo = new MachineAdapterInfo(this.config.adapterName(),
@@ -464,31 +464,19 @@ public class RaspiSubscriptionMachineAdapterImpl
      * #####################################
      */
 
-    /**
-     * Generates random nodes
-     * 
-     * @param count of nodes
-     */
-    private void createNodes(int count)
+    private void createNode(String sensorString, String locationString, String filenameString)
     {
-        for (int index = 1; index <= count; index++)
-        {
-            String nodeName = "Node" + Integer.toString(index); //$NON-NLS-1$
-            RaspiDataNode node = new RaspiDataNode(this.uuid, nodeName);
-
-            // Create a new node and put it in the cache.
-            this.dataNodes.put(node.getNodeId(), node);
-        }
-    }
-
-    private void createNode(String s)
-    {
-    	_logger.info("Creating sensor "+s); //$NON-NLS-1$
-    	String[] attributes = s.split(","); //$NON-NLS-1$
-    	RaspiDataNode node = new RaspiDataNode(this.uuid, attributes[1]);
-    	node.setDescription(attributes[2]);
-    	node.setEngineeringUnit(attributes[3]);
-    	node.setSensorId(attributes[0]);
+    	_logger.info("Creating sensor "+sensorString); //$NON-NLS-1$
+    	String[] attributes = sensorString.split(","); //$NON-NLS-1$
+    	RaspiSensor sensor = new RaspiSensor();
+    	sensor.setId(attributes[0]);
+    	sensor.setName(attributes[1]);
+    	sensor.setDescription(attributes[2]);
+    	sensor.setUom(attributes[3]);
+    	sensor.setDatafile(locationString+"/"+sensor.getId()+"/"+filenameString); //$NON-NLS-1$ //$NON-NLS-2$
+    	
+    	RaspiDataNode node = new RaspiDataNode(this.uuid, sensor);
+    	
     	// Create a new node and put it in the cache.
         this.dataNodes.put(node.getNodeId(), node);
     }

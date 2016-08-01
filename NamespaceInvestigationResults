@@ -18,4 +18,9 @@ Test 2: Change folder and package name from .../subscriptionmachineadapter to ..
 - deployed to machine
 Result 2: Success - abcdeName tag updates in TimeSeries
 
+Test 3: Changed the sensor architecture
+- updated in source files, config file, bundle.properties
+- - built ok
+- deployed to machine
+Result 3: 
 

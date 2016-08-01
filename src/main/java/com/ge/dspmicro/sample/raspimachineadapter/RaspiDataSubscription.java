@@ -25,6 +25,7 @@ import com.ge.dspmicro.machinegateway.api.adapter.ISubscriptionMachineAdapter;
 import com.ge.dspmicro.machinegateway.types.PDataNode;
 import com.ge.dspmicro.machinegateway.types.PDataValue;
 import com.ge.dspmicro.machinegateway.types.PEnvelope;
+import com.ge.dspmicro.machinegateway.types.PQuality;
 
 /**
  * 
@@ -161,11 +162,17 @@ public class RaspiDataSubscription
 
                 for (RaspiDataNode node : this.nodes.values())
                 {
+                	// Get the sensor details
+                	RaspiSensor sensor = node.getSensor();
+                	RaspiSensorValue sensorValue = sensor.read();
                     // Simulating the data.
-                    PEnvelope envelope = new PEnvelope(this.dataGenerator.nextFloat());
+                    PEnvelope envelope = new PEnvelope(sensorValue.getValue());
                     PDataValue value = new PDataValue(node.getNodeId(), envelope);
+                    PQuality quality = new PQuality(sensorValue.getQuality());
+                    
                     value.setNodeName(node.getName());
                     value.setAddress(node.getAddress());
+                    value.setQuality(quality);
                     
                     data.add(value);
                 }

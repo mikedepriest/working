@@ -23,19 +23,22 @@ import com.ge.dspmicro.machinegateway.types.PDataNode;
  */
 public class RaspiDataNode extends PDataNode
 {
-    private String sensorId;
+    private RaspiSensor sensor;
 
     /**
      * Constructor
      * 
      * @param machineAdapterId a unique id
-     * @param name string value
+     * @param aSensor RaspiSensor definition for node
      */
-    public RaspiDataNode(UUID machineAdapterId, String name)
+    public RaspiDataNode(UUID machineAdapterId, RaspiSensor aSensor)
     {
-        super(machineAdapterId, name);
+        super(machineAdapterId, aSensor.getName());
 
         // Do other initialization if needed.
+    	this.sensor = aSensor;
+    	this.setDescription(this.sensor.getDescription());
+    	this.setEngineeringUnit(this.sensor.getUom());
     }
 
     /**
@@ -54,19 +57,12 @@ public class RaspiDataNode extends PDataNode
             return null;
         }
     }
+    
+    /**
+     * @return - this node's sensor
+     */
+    public RaspiSensor getSensor() {
+    	return this.sensor;
+    }
 
-
-	/**
-	 * @return the sensorId
-	 */
-	public String getSensorId() {
-		return this.sensorId;
-	}
-
-	/**
-	 * @param sensorId the sensorId to set
-	 */
-	public void setSensorId(String sensorId) {
-		this.sensorId = sensorId;
-	}
 }

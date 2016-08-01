@@ -28,3 +28,5 @@
 (java.util.PropertyPermission "*" "read,write")
 (java.lang.RuntimePermission "modifyThread")
 (java.lang.RuntimePermission "getStackTrace")
+
+#("java.io.FilePermission", "/-", "read,write")
